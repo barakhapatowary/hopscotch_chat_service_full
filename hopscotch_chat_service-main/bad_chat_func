@@ -1,0 +1,26 @@
+"""BAD EXAMPLE — for teaching only; this file is not used by the API."""
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+
+
+def chat(query):
+    # Mistake: this setup runs again for every call to chat().
+    llm = ChatOpenAI(model="gpt-4o-mini")
+
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", "You are a helpful shopping assistant."),
+        ("human", "{query}"),
+    ])
+
+    chain = prompt | llm
+
+    response = chain.invoke({"query": query})
+    return response.content
+
+
+# Imagine an API endpoint calls chat() for each incoming question:
+# chat("Hello")              # Creates the model client, prompt, and chain.
+# chat("What can you do?")   # Creates them all again.
+#
+# Better: create llm, prompt, and chain outside chat(), once when the module
+# loads. Inside chat(), just invoke the existing chain.

@@ -1,0 +1,6 @@
+# Separate from the FastAPI/Vercel dependencies.
+streamlit==1.50.0
+langchain-openai==0.3.35
+langchain-core==0.3.86
+httpx==0.28.1
+python-dotenv==1.2.1
